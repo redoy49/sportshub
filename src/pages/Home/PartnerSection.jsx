@@ -2,55 +2,89 @@ import React from "react";
 import Marquee from "react-fast-marquee";
 
 const partners = [
-  { name: "Peecho", url: "https://cdn.prod.website-files.com/64635391b8b44bf81493741f/64648312f4191cab11a4ebdf_peecho.svg" },
-  { name: "ING", url: "https://cdn.prod.website-files.com/64635391b8b44bf81493741f/6464832af92c6bb858ba1c13_ing.svg" },
-  { name: "Gemeente Amsterdam", url: "https://cdn.prod.website-files.com/64635391b8b44bf81493741f/646483465ae7c51a438c4022_gemeente-amsterdam.svg" },
-  { name: "VGZ", url: "https://cdn.prod.website-files.com/64635391b8b44bf81493741f/6464835c5d0d2c49f4b3dfc7_vgz.svg" },
-  { name: "A-Insight", url: "https://cdn.prod.website-files.com/64635391b8b44bf81493741f/64648373122cbb504b741636_a-insight.svg" },
-  { name: "Papyr", url: "https://cdn.prod.website-files.com/64635391b8b44bf81493741f/6464838bf940eff8138cb8df_papyr.svg" },
-  { name: "Edge Impulse", url: "https://cdn.prod.website-files.com/64635391b8b44bf81493741f/6464839ef295c0007c5b0c17_edge-impulse.svg" },
-  { name: "Unceil", url: "https://cdn.prod.website-files.com/64635391b8b44bf81493741f/646483b07594894b574478d9_unceil.svg" },
-  { name: "Total Energies", url: "https://cdn.prod.website-files.com/64635391b8b44bf81493741f/646483cc9be93d6e98e20189_total-energies.svg" },
-  { name: "Dunlop", url: "https://cdn.prod.website-files.com/64635391b8b44bf81493741f/646483f8ff1b9504a8d93dc9_Dunlop.svg" },
-  { name: "Moby Park", url: "https://cdn.prod.website-files.com/64635391b8b44bf81493741f/646484158c8fd22869c1eeb5_moby-park.svg" },
-  { name: "ABN", url: "https://cdn.prod.website-files.com/64635391b8b44bf81493741f/6464844aff1b9504a8d9cf46_abn.svg" },
-  { name: "Esomar", url: "https://cdn.prod.website-files.com/64635391b8b44bf81493741f/64648459f940eff8138dfe4b_esomar.svg" },
+  {
+    name: "Slack",
+    url: "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/companyLogo/slack.svg",
+  },
+  {
+    name: "Framer",
+    url: "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/companyLogo/framer.svg",
+  },
+  {
+    name: "Netflix",
+    url: "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/companyLogo/netflix.svg",
+  },
+  {
+    name: "Google",
+    url: "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/companyLogo/google.svg",
+  },
+  {
+    name: "LinkedIn",
+    url: "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/companyLogo/linkedin.svg",
+  },
+  {
+    name: "Instagram",
+    url: "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/companyLogo/instagram.svg",
+  },
+  {
+    name: "Facebook",
+    url: "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/companyLogo/facebook.svg",
+  },
 ];
 
 const PartnerSection = () => {
   return (
-    <section className="py-16 bg-gray-50 antialiased">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-[40px] font-bold text-[#121212]">
+    <section className="relative overflow-hidden bg-white py-20">
+      {/* background glow */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 35%, rgba(162,203,139,0.20) 0%, rgba(199,234,187,0.10) 30%, transparent 65%)",
+        }}
+      />
+
+      <div className="relative z-10 mx-auto px-5 lg:px-8 xl:px-[8%]">
+        {/* Header */}
+        <div className="text-center mb-14">
+          <span className="inline-block text-sm font-semibold text-[#84B179] bg-[#E8F5BD]/50 px-3 py-1 rounded-full">
+            Trusted Worldwide
+          </span>
+
+          <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-gray-900">
             Our Trusted Partners
           </h2>
-          <p className="mt-2 text-base md:text-lg text-gray-500">
-            We collaborate with top brands to provide the best club experience.
+
+          <div className="mt-4 w-16 h-1 mx-auto rounded-full bg-gradient-to-r from-[#84B179] to-[#A2CB8B]" />
+
+          <p className="mt-4 text-gray-600 max-w-xl mx-auto">
+            We collaborate with leading organizations to deliver the best
+            experience for our club members.
           </p>
         </div>
 
-        {/* Marquee */}
-        <Marquee speed={50} gradient={false} pauseOnHover={true}>
-          {partners.map((partner, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 px-4 sm:px-6 md:px-8 flex items-center justify-center w-20 sm:w-28 md:w-36 lg:w-40 xl:w-48"
-            >
-              <img
-                src={partner.url}
-                alt={partner.name}
-                className="max-h-12 w-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src =
-                    "https://placehold.co/160x48/cccccc/ffffff?text=Logo+Error";
-                }}
-              />
-            </div>
-          ))}
-        </Marquee>
+        {/* marquee */}
+        <div className="relative overflow-hidden border-y border-gray-100 py-10">
+          {/* fade edges */}
+          <div className="pointer-events-none absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-white to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-white to-transparent z-10" />
+
+          <Marquee speed={35} pauseOnHover={false} gradient={false}>
+            {partners.map((partner, index) => (
+              <div
+                key={index}
+                className="mx-12 flex items-center justify-center"
+              >
+                <img
+                  src={partner.url}
+                  alt={partner.name}
+                  draggable="false"
+                  className="h-9 md:h-10 w-auto object-contain opacity-80 hover:opacity-100 hover:scale-110 transition duration-300"
+                />
+              </div>
+            ))}
+          </Marquee>
+        </div>
       </div>
     </section>
   );
