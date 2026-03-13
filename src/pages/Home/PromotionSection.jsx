@@ -14,7 +14,10 @@ const PromotionSection = () => {
     queryKey: ["coupons"],
     queryFn: async () => {
       const res = await axiosSecure.get("/coupons");
-      return res.data;
+      // Ensure we always return an array
+      if (Array.isArray(res.data)) return res.data;
+      if (res.data?.coupons && Array.isArray(res.data.coupons)) return res.data.coupons;
+      return [];
     },
   });
 
@@ -36,29 +39,32 @@ const PromotionSection = () => {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
-          {coupons.slice(0, 4).map(({ _id, code, discount, description }) => (
-            <div
-              key={_id || code}
-              className="bg-white rounded-xl p-6 flex flex-col items-center text-center shadow-md hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="text-4xl font-extrabold text-black mb-2">
-                {discount}%
+          {/* Safe mapping */}
+          {Array.isArray(coupons) && coupons.length > 0 ? (
+            coupons.slice(0, 4).map(({ _id, code, discount, description }) => (
+              <div
+                key={_id || code}
+                className="bg-white rounded-xl p-6 flex flex-col items-center text-center shadow-md hover:shadow-xl transition-shadow duration-300"
+              >
+                <div className="text-4xl font-extrabold text-black mb-2">
+                  {discount}%
+                </div>
+                <div className="text-xl font-semibold mb-2 text-black">
+                  Coupon Code:
+                </div>
+                <div className="text-2xl font-mono bg-gray-100 px-4 py-2 rounded-md mb-4 select-all cursor-pointer text-black">
+                  {code}
+                </div>
+                <p className="text-gray-700">{description}</p>
               </div>
-              <div className="text-xl font-semibold mb-2 text-black">
-                Coupon Code:
-              </div>
-              <div className="text-2xl font-mono bg-gray-100 px-4 py-2 rounded-md mb-4 select-all cursor-pointer text-black">
-                {code}
-              </div>
-              <p className="text-gray-700">{description}</p>
-            </div>
-          ))}
-
-          {/* Empty state */}
-          {!isLoading && coupons.length === 0 && (
-            <p className="text-center text-gray-500 col-span-full">
-              No active promotions available.
-            </p>
+            ))
+          ) : (
+            // Empty state
+            !isLoading && (
+              <p className="text-center text-gray-500 col-span-full">
+                No active promotions available.
+              </p>
+            )
           )}
         </div>
       </div>
