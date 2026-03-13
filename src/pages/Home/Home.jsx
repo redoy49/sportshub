@@ -10,15 +10,15 @@ import PartnerSection from "./PartnerSection";
 
 const Home = () => {
   return (
-    <div className="space-y-20">
+    <div>
       <HeroSection />
       <AboutSection />
-      <PartnerSection/>
+      <PartnerSection />
       <LocationSection />
       <PromotionSection />
       <TestimonialSection />
-      <BlogSection/>
-      <NewsletterSection/>
+      <BlogSection />
+      <NewsletterSection />
     </div>
   );
 };

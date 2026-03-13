@@ -138,7 +138,7 @@ const Navbar = () => {
                 to="/courts"
                 className="text-sm px-4 py-2 bg-gradient-to-r from-[#84B179] to-[#A2CB8B] text-white rounded-full shadow hover:shadow-lg hover:scale-105 transition"
               >
-                Book Now
+                Book a Court
               </Link>
             </>
           )}

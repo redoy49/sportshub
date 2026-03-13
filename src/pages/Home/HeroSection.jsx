@@ -106,7 +106,7 @@ const HeroSection = () => {
                 to="/courts"
                 className="rounded-full px-8 py-3 font-semibold bg-[#84B179] text-white shadow-md hover:shadow-lg hover:scale-105 transition duration-300"
               >
-                View Courts
+                Reserve a Court
               </Link>
 
               <Link
