@@ -44,7 +44,7 @@ const PartnerSection = () => {
         }}
       />
 
-      <div className="relative z-10 mx-auto px-5 lg:px-8 xl:px-[8%]">
+      <div className="relative max-w-[1600px] z-10 mx-auto px-5 lg:px-8 xl:px-[8%]">
         {/* Header */}
         <div className="text-center mb-14">
           <span className="inline-block text-sm font-semibold text-[#84B179] bg-[#E8F5BD]/50 px-3 py-1 rounded-full">
