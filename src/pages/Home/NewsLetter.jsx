@@ -3,7 +3,6 @@ import React from "react";
 const NewsletterSection = () => {
   return (
     <section className="relative py-24 bg-white overflow-hidden">
-
       {/* background glow */}
       <div
         className="absolute inset-0"
@@ -13,8 +12,7 @@ const NewsletterSection = () => {
         }}
       />
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-5 lg:px-8 xl:px-[8%] text-center">
-
+      <div className="relative z-10 max-w-[1600px] mx-auto px-5 lg:px-8 xl:px-[8%] text-center">
         {/* Title */}
         <span className="inline-block text-sm font-semibold text-[#84B179] bg-[#E8F5BD]/50 px-3 py-1 rounded-full">
           Newsletter
@@ -31,7 +29,6 @@ const NewsletterSection = () => {
 
         {/* Form */}
         <form className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto">
-
           {/* Input with icon */}
           <div className="relative w-full">
             <input
@@ -61,7 +58,6 @@ const NewsletterSection = () => {
             hover:bg-[#6F9F62] transition shadow-sm"
           >
             Subscribe
-
             <svg
               className="w-4 h-4 transition group-hover:translate-x-1"
               xmlns="http://www.w3.org/2000/svg"
@@ -74,16 +70,13 @@ const NewsletterSection = () => {
                 clipRule="evenodd"
               />
             </svg>
-
           </button>
-
         </form>
 
         {/* privacy note */}
         <p className="mt-4 text-sm text-gray-500">
           We respect your privacy. Unsubscribe anytime.
         </p>
-
       </div>
     </section>
   );
