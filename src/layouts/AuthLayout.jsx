@@ -1,30 +1,39 @@
-import React from "react";
-import { Outlet } from "react-router";
-import authImage from "../assets/auth-illustration.svg";
-import Navbar from "../components/shared/Navbar";
-import Footer from "../components/shared/Footer";
+// import React from "react";
+// import { Outlet } from "react-router";
+// import Navbar from "../components/shared/Navbar";
+// import Footer from "../components/shared/Footer";
 
-const AuthLayout = () => {
-  return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <section className="flex-grow flex items-center justify-center px-4 pt-20 md:pt-24 lg:pt-28">
-        <div className="flex flex-col lg:flex-row bg-white rounded-lg overflow-hidden max-w-5xl w-full shadow-sm">
-          <div className="hidden lg:flex flex-1 items-center justify-center bg-gray-100 p-10">
-            <img
-              src={authImage}
-              alt="Welcome Illustration"
-              className="w-full max-w-md"
-            />
-          </div>
-          <div className="flex-1 max-w-lg p-8 md:p-12 bg-gray-50">
-            <Outlet />
-          </div>
-        </div>
-      </section>
-      <Footer />
-    </div>
-  );
-};
+// const AuthLayout = () => {
+//   return (
+//     <div className="min-h-screen flex flex-col relative overflow-hidden">
 
-export default AuthLayout;
+//       <Navbar />
+
+//       {/* Soft Background Gradient */}
+//       <div
+//         className="absolute inset-0 -z-10"
+//         style={{
+//           background:
+//             "linear-gradient(135deg,#f0fdf4 0%,#ecfdf5 35%,#f8fafc 70%,#f0fdf4 100%)",
+//         }}
+//       />
+
+//       {/* Gradient blobs */}
+//       <div className="absolute top-[-120px] left-[-120px] w-[380px] h-[380px] bg-green-300/40 blur-3xl rounded-full -z-10"></div>
+
+//       <div className="absolute bottom-[-100px] right-[-100px] w-[350px] h-[350px] bg-emerald-300/40 blur-3xl rounded-full -z-10"></div>
+
+//       {/* Auth Content */}
+//       <section className="flex-grow flex items-center justify-center px-4 pt-24 pb-16">
+//         <div className="w-full max-w-[480px] bg-white/80 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-xl p-8 md:p-10">
+//           <Outlet />
+//         </div>
+//       </section>
+
+//       <Footer />
+
+//     </div>
+//   );
+// };
+
+// export default AuthLayout;
