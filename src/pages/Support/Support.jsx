@@ -1,103 +1,164 @@
 import React, { useState } from "react";
 
-const faqs = [
+const faqData = [
   {
-    question: "How do I book a court?",
+    question: "How do I update my billing information?",
     answer:
-      "You can book a court by navigating to the 'View Courts' page, selecting your desired time, and confirming your booking.",
+      "Log in to your account and go to the billing page. From there you can update payment methods or edit your billing details.",
   },
   {
-    question: "How can I manage my membership?",
+    question: "How do I delete my account?",
     answer:
-      "Go to your profile and click on 'Membership' to update your details, renew your plan, or check your membership status.",
+      "Go to account settings and choose the delete account option. Our team will confirm your request shortly.",
   },
   {
-    question: "How do I report an issue or get help?",
+    question: "How do I join a group or community?",
     answer:
-      "You can submit a request using the form below, and our support team will get back to you within 24 hours.",
+      "Navigate to the community section from your dashboard and select the group you'd like to join.",
+  },
+  {
+    question: "How can I contact customer support?",
+    answer:
+      "You can submit a support request using the form below and our team will respond within 24 hours.",
+  },
+  {
+    question: "Which is better short term or long term?",
+    answer:
+      "Long term memberships usually offer better pricing while short term provides more flexibility.",
+  },
+  {
+    question: "How do I change my email address?",
+    answer:
+      "Go to your profile settings and update your email address inside the account section.",
   },
 ];
 
-const Support = () => {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+const SupportFAQ = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Here you can send formData to your backend or API
-    console.log(formData);
-    setFormData({ name: "", email: "", message: "" });
+  const toggleFAQ = (index) => {
+    setActiveIndex(activeIndex === index ? null : index);
   };
 
   return (
-    <section className="min-h-[80vh] py-30 lg:py-40 px-5 lg:px-20  bg-gray-50">
-      <div className="max-w-4xl mx-auto space-y-10">
+    <section className="relative py-24 overflow-hidden bg-white">
+      
+      {/* Green Glow Background */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(162,203,139,0.25),transparent_40%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(199,234,187,0.25),transparent_40%)]"></div>
+      </div>
+
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-8 xl:px-[8%]">
+
         {/* Heading */}
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-[#121212] mb-6">
-            Support Center
-          </h1>
-          <p className="text-gray-700 text-lg">
-            Have questions or need assistance? Our team is here to help you manage your club efficiently.
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+            Frequently Asked Questions
+          </h2>
+
+          <p className="mt-3 text-gray-600 max-w-xl mx-auto">
+            Find answers to common questions about bookings, memberships, and
+            account management.
           </p>
         </div>
 
-        {/* FAQ Section */}
-        <div className="space-y-4">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Frequently Asked Questions</h2>
-          {faqs.map((faq, i) => (
-            <div key={i} className="border-0 rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition">
-              <h3 className="font-medium text-gray-900">{faq.question}</h3>
-              <p className="text-gray-600 mt-2">{faq.answer}</p>
+        {/* FAQ */}
+        <div className="space-y-4 mb-20">
+
+          {faqData.map((faq, index) => (
+            <div
+              key={index}
+              className={`rounded-xl border transition-all duration-300 ${
+                activeIndex === index
+                  ? "bg-[#F3F8F1] border-[#A2CB8B]"
+                  : "bg-white border-gray-200 hover:border-[#A2CB8B] hover:shadow-sm"
+              }`}
+            >
+              <button
+                onClick={() => toggleFAQ(index)}
+                className="w-full flex justify-between items-center px-6 py-5 text-left"
+              >
+                <span className="font-medium text-gray-900">
+                  {faq.question}
+                </span>
+
+                <span className="text-[#84B179] text-xl font-bold">
+                  {activeIndex === index ? "−" : "+"}
+                </span>
+              </button>
+
+              {activeIndex === index && (
+                <div className="px-6 pb-6 text-gray-600 text-sm leading-relaxed">
+                  {faq.answer}
+                </div>
+              )}
             </div>
           ))}
         </div>
 
-        {/* Contact Form */}
-        <div className="bg-white rounded-lg shadow-md p-8">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6">Contact Support</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Your Name"
-              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#0c6af8]"
-              required
+        {/* Contact + Image */}
+        <div className="grid lg:grid-cols-2 gap-14 items-center">
+
+          {/* Contact Form */}
+          <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
+
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              In what way can we help?
+            </h3>
+
+            <p className="text-gray-500 mb-6">
+              Feel free to reach out to us with your inquiries.
+            </p>
+
+            <form className="space-y-4">
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                <input
+                  type="text"
+                  placeholder="Name"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-[#84B179] focus:outline-none"
+                />
+
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-[#84B179] focus:outline-none"
+                />
+
+              </div>
+
+              <textarea
+                rows="5"
+                placeholder="Write your question..."
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-[#84B179] focus:outline-none"
+              ></textarea>
+
+              <button
+                type="submit"
+                className="bg-[#84B179] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#6da863] transition"
+              >
+                Submit Now
+              </button>
+
+            </form>
+          </div>
+
+          {/* Illustration */}
+          <div className="flex justify-center">
+            <img
+              src="https://cdn.vectorstock.com/i/750p/08/81/graphic-cartoon-character-faq-vector-37100881.avif"
+              alt="FAQ Illustration"
+              className="w-full max-w-md mx-auto"
             />
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Your Email"
-              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#0c6af8]"
-              required
-            />
-            <textarea
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              placeholder="Your Message"
-              rows="5"
-              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#0c6af8]"
-              required
-            ></textarea>
-            <button
-              type="submit"
-              className="rounded-full px-8 py-3 bg-[#0c6af8] text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300"
-            >
-              Submit
-            </button>
-          </form>
+          </div>
+
         </div>
+
       </div>
     </section>
   );
 };
 
-export default Support;
+export default SupportFAQ;
