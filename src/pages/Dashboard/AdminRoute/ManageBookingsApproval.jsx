@@ -25,7 +25,7 @@ const ManageBookingsApproval = () => {
     onSuccess: () => {
       Swal.fire({
         icon: "success",
-        title: "Approved!",
+        title: "Approved",
         text: "Booking approved successfully.",
         timer: 2000,
         showConfirmButton: false,
@@ -39,7 +39,7 @@ const ManageBookingsApproval = () => {
     onSuccess: () => {
       Swal.fire({
         icon: "success",
-        title: "Rejected!",
+        title: "Rejected",
         text: "Booking rejected successfully.",
         timer: 2000,
         showConfirmButton: false,
@@ -51,68 +51,89 @@ const ManageBookingsApproval = () => {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="max-w-full mx-auto border border-gray-200 px-4 py-6 mt-16 lg:mt-2">
-      <h2 className="mb-4 text-2xl font-bold text-gray-800">
-        📋 Manage Booking Approvals
-      </h2>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-semibold text-gray-900">
+          Manage Booking Approvals
+        </h2>
 
-      {bookings.length === 0 ? (
-        <p className="text-gray-500 italic">No pending bookings available.</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead className="bg-blue-50 text-sm">
-              <tr>
-                <th>#</th>
-                <th>User</th>
-                <th>Court</th>
-                <th>Slot</th>
-                <th>Price</th>
-                <th>Date</th>
-                <th className="text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings.map((booking, index) => (
-                <tr
-                  key={booking._id}
-                  className="hover:bg-base-100 transition-colors"
-                >
-                  <td>{index + 1}</td>
-                  <td>{booking.userEmail}</td>
-                  <td>{booking.courtName}</td>
-                  <td>{booking.slots?.join(", ") || "N/A"}</td>
-                  <td className="text-green-600 font-semibold">
-                    ${booking.price}
-                  </td>
-                  <td>{new Date(booking.date).toLocaleDateString()}</td>
-                  <td className="flex gap-2 justify-center items-center py-2">
-                    <button
-                      onClick={() => approveBooking.mutate(booking._id)}
-                      className="btn btn-xs md:btn-sm btn-success text-white"
-                    >
-                      Approve
-                    </button>
-                    <button
-                      onClick={() => rejectBooking.mutate(booking._id)}
-                      className="btn btn-xs md:btn-sm btn-error text-white"
-                    >
-                      Reject
-                    </button>
-                  </td>
-                </tr>
-              ))}
-              {bookings.length === 0 && (
+        <span className="text-sm text-gray-500">
+          {bookings.length} pending requests
+        </span>
+      </div>
+
+      {/* Table Container */}
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        {bookings.length === 0 ? (
+          <div className="py-10 text-center text-gray-500">
+            No pending bookings available
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="table w-full">
+              {/* Head */}
+              <thead className="bg-[#E8F5BD]/40 text-gray-700 text-sm">
                 <tr>
-                  <td colSpan={7} className="text-center py-4 text-gray-500">
-                    No pending bookings found.
-                  </td>
+                  <th>#</th>
+                  <th>User</th>
+                  <th>Court</th>
+                  <th>Slot</th>
+                  <th>Price</th>
+                  <th>Date</th>
+                  <th className="text-center">Actions</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      )}
+              </thead>
+
+              {/* Body */}
+              <tbody>
+                {bookings.map((booking, index) => (
+                  <tr
+                    key={booking._id}
+                    className="hover:bg-[#E8F5BD]/30 transition"
+                  >
+                    <td className="text-gray-500">{index + 1}</td>
+
+                    <td className="text-gray-700">{booking.userEmail}</td>
+
+                    <td className="font-medium text-gray-900">
+                      {booking.courtName}
+                    </td>
+
+                    <td className="text-gray-600">
+                      {booking.slots?.join(", ") || "N/A"}
+                    </td>
+
+                    <td className="text-[#84B179] font-semibold">
+                      ৳{booking.price}
+                    </td>
+
+                    <td className="text-gray-600">
+                      {new Date(booking.date).toLocaleDateString()}
+                    </td>
+
+                    <td className="flex gap-2 justify-center items-center py-2">
+                      <button
+                        onClick={() => approveBooking.mutate(booking._id)}
+                        className="px-3 py-1.5 text-xs font-medium rounded-lg bg-[#84B179] text-white hover:bg-[#6F9F62] transition"
+                      >
+                        Approve
+                      </button>
+
+                      <button
+                        onClick={() => rejectBooking.mutate(booking._id)}
+                        className="px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
+                      >
+                        Reject
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
