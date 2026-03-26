@@ -1,15 +1,21 @@
-// components/AdminProfile.jsx
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/LoadingSpinner";
-import { FaUsers, FaTableTennis, FaUserCheck } from "react-icons/fa";
+import {
+  FaUsers,
+  FaTableTennis,
+  FaUserCheck,
+  FaMoneyBillWave,
+} from "react-icons/fa";
 import fallbackImage from "../../../assets/profileFallback.png";
+import RevenueChart from "../AdminRoute/RevenueChart";
 
 const AdminProfile = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
+  // Admin info
   const { data: admin = {}, isLoading: loadingAdmin } = useQuery({
     queryKey: ["admin", user?.email],
     enabled: !!user?.email,
@@ -19,6 +25,7 @@ const AdminProfile = () => {
     },
   });
 
+  // Courts
   const { data: courts = [] } = useQuery({
     queryKey: ["courts"],
     queryFn: async () => {
@@ -27,6 +34,7 @@ const AdminProfile = () => {
     },
   });
 
+  // Users
   const { data: users = [] } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
@@ -35,45 +43,124 @@ const AdminProfile = () => {
     },
   });
 
+  // Bookings (for revenue + activity)
+  const { data: bookings = [] } = useQuery({
+    queryKey: ["bookings"],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/bookings`);
+      return res.data;
+    },
+  });
+
   const totalMembers = users.filter((u) => u.role === "member").length;
+
+  const totalRevenue = bookings.reduce((sum, b) => sum + (b.price || 0), 0);
 
   if (loadingAdmin) return <LoadingSpinner />;
 
   return (
-    <div className="max-w-6xl mx-auto bg-white rounded-xl px-6 py-24">
-      <div className="flex flex-col items-center mb-6">
-        <img
-          src={admin.image || fallbackImage}
-          alt="Admin"
-          className="w-24 h-24 rounded-full mb-4 ring-3 ring-blue-300"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = fallbackImage;
-          }}
-        />
-        <h2 className="text-2xl font-semibold">{admin.name}</h2>
-        <p className="text-gray-700">{admin.email}</p>
+    <div className="space-y-8">
+      {/* ================= HEADER ================= */}
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 flex items-center justify-between">
+        <div className="flex items-center gap-5">
+          <img
+            src={admin.image || fallbackImage}
+            alt="Admin"
+            className="w-20 h-20 rounded-full object-cover ring-2 ring-[#E8F5BD]"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = fallbackImage;
+            }}
+          />
+
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900">
+              {admin.name}
+            </h2>
+            <p className="text-gray-500 text-sm">{admin.email}</p>
+
+            <span className="inline-block mt-2 text-xs bg-[#E8F5BD]/60 text-[#6F9F62] px-3 py-1 rounded-full">
+              Admin Panel
+            </span>
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-        <div className="bg-blue-50 p-5 rounded-xl flex flex-col items-center space-y-2">
-          <FaTableTennis className="text-blue-600 text-3xl" />
-          <h4 className="text-lg font-semibold text-blue-700">Total Courts</h4>
-          <p className="text-3xl font-bold text-blue-900">{courts.length}</p>
+      {/* ================= STATS ================= */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Courts */}
+        <div className="bg-white border border-gray-200 p-6 rounded-xl flex items-center justify-between hover:shadow-sm transition">
+          <div>
+            <p className="text-sm text-gray-500">Total Courts</p>
+            <h3 className="text-2xl font-semibold text-gray-900 mt-1">
+              {courts.length}
+            </h3>
+          </div>
+          <FaTableTennis size={22} className="text-[#84B179]" />
         </div>
 
-        <div className="bg-green-50 p-5 rounded-xl flex flex-col items-center space-y-2">
-          <FaUsers className="text-green-600 text-3xl" />
-          <h4 className="text-lg font-semibold text-green-700">Total Users</h4>
-          <p className="text-3xl font-bold text-green-900">{users.length}</p>
+        {/* Users */}
+        <div className="bg-white border border-gray-200 p-6 rounded-xl flex items-center justify-between hover:shadow-sm transition">
+          <div>
+            <p className="text-sm text-gray-500">Total Users</p>
+            <h3 className="text-2xl font-semibold text-gray-900 mt-1">
+              {users.length}
+            </h3>
+          </div>
+          <FaUsers size={22} className="text-[#84B179]" />
         </div>
 
-        <div className="bg-purple-50 p-5 rounded-xl flex flex-col items-center space-y-2">
-          <FaUserCheck className="text-purple-600 text-3xl" />
-          <h4 className="text-lg font-semibold text-purple-700">
-            Total Members
-          </h4>
-          <p className="text-3xl font-bold text-purple-900">{totalMembers}</p>
+        {/* Members */}
+        <div className="bg-white border border-gray-200 p-6 rounded-xl flex items-center justify-between hover:shadow-sm transition">
+          <div>
+            <p className="text-sm text-gray-500">Total Members</p>
+            <h3 className="text-2xl font-semibold text-gray-900 mt-1">
+              {totalMembers}
+            </h3>
+          </div>
+          <FaUserCheck size={22} className="text-[#84B179]" />
+        </div>
+
+        {/* Revenue (NEW) */}
+        <div className="bg-white border border-gray-200 p-6 rounded-xl flex items-center justify-between hover:shadow-sm transition">
+          <div>
+            <p className="text-sm text-gray-500">Total Revenue</p>
+            <h3 className="text-2xl font-semibold text-gray-900 mt-1">
+              ৳{totalRevenue.toLocaleString()}
+            </h3>
+          </div>
+          <FaMoneyBillWave size={22} className="text-[#84B179]" />
+        </div>
+      </div>
+
+      {/* ================= CHART + ACTIVITY ================= */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Chart */}
+        <div className="lg:col-span-2">
+          <RevenueChart />
+        </div>
+
+        {/* Recent Activity */}
+        <div className="bg-white border border-gray-200 rounded-xl p-5">
+          <h3 className="text-sm font-semibold text-gray-800 mb-4">
+            Recent Bookings
+          </h3>
+
+          <div className="space-y-3 text-sm text-gray-600">
+            {bookings
+              .slice(-5)
+              .reverse()
+              .map((b, i) => (
+                <div key={i} className="flex justify-between">
+                  <span>{b.courtName}</span>
+                  <span className="text-[#84B179]">৳{b.price}</span>
+                </div>
+              ))}
+
+            {bookings.length === 0 && (
+              <p className="text-gray-400">No recent bookings</p>
+            )}
+          </div>
         </div>
       </div>
     </div>
