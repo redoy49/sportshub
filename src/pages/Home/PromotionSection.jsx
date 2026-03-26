@@ -14,52 +14,89 @@ const PromotionSection = () => {
     queryKey: ["coupons"],
     queryFn: async () => {
       const res = await axiosSecure.get("/coupons");
-      // Ensure we always return an array
       if (Array.isArray(res.data)) return res.data;
-      if (res.data?.coupons && Array.isArray(res.data.coupons)) return res.data.coupons;
+      if (res.data?.coupons && Array.isArray(res.data.coupons))
+        return res.data.coupons;
       return [];
     },
   });
 
   return (
-    <section className="bg-slate-100 py-16">
-      <div className="max-w-[1600px] mx-auto px-5 lg:px-8 xl:px-[8%]">
+    <section className="relative py-20 bg-white overflow-hidden">
+
+      {/* Soft Green Glow */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 30%, rgba(162, 203, 139, 0.2) 0%, rgba(199, 234, 187, 0.1) 30%, transparent 65%)",
+        }}
+      />
+
+      <div className="relative z-10 max-w-[1600px] mx-auto px-5 lg:px-8 xl:px-[8%]">
+        
         <SectionTitle
           title="Exclusive Promotions"
           subtitle="Save more with our latest discount coupons"
         />
 
+        {/* Loading */}
         {isLoading && (
-          <p className="text-center mt-8 text-gray-700">Loading coupons...</p>
+          <p className="text-center mt-8 text-gray-600">
+            Loading promotions...
+          </p>
         )}
+
+        {/* Error */}
         {isError && (
-          <p className="text-center text-red-600 mt-8">
+          <p className="text-center text-red-500 mt-8">
             Failed to load coupons.
           </p>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
-          {/* Safe mapping */}
+        {/* Cards */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10">
           {Array.isArray(coupons) && coupons.length > 0 ? (
             coupons.slice(0, 4).map(({ _id, code, discount, description }) => (
               <div
                 key={_id || code}
-                className="bg-white rounded-xl p-6 flex flex-col items-center text-center shadow-md hover:shadow-xl transition-shadow duration-300"
+                className="group bg-white rounded-xl border border-gray-200 p-5 text-center
+                hover:border-[#A2CB8B] transition"
               >
-                <div className="text-4xl font-extrabold text-black mb-2">
-                  {discount}%
+                {/* Discount */}
+                <div className="text-3xl font-bold text-[#84B179]">
+                  {discount}% OFF
                 </div>
-                <div className="text-xl font-semibold mb-2 text-black">
-                  Coupon Code:
-                </div>
-                <div className="text-2xl font-mono bg-gray-100 px-4 py-2 rounded-md mb-4 select-all cursor-pointer text-black">
+
+                {/* Code Label */}
+                <p className="text-xs text-gray-500 mt-2">
+                  Use Code
+                </p>
+
+                {/* Coupon Code */}
+                <div
+                  className="mt-2 inline-block font-mono text-sm
+                  bg-[#E8F5BD]/50 text-gray-800 px-4 py-2 rounded-lg
+                  border border-[#A2CB8B]/30 select-all cursor-pointer"
+                >
                   {code}
                 </div>
-                <p className="text-gray-700">{description}</p>
+
+                {/* Description */}
+                <p className="text-sm text-gray-600 mt-3">
+                  {description}
+                </p>
+
+                {/* Optional CTA */}
+                <button
+                  className="mt-4 px-4 py-2 rounded-lg text-sm font-medium
+                  bg-[#84B179] text-white hover:bg-[#6F9F62] transition"
+                >
+                  Apply Now
+                </button>
               </div>
             ))
           ) : (
-            // Empty state
             !isLoading && (
               <p className="text-center text-gray-500 col-span-full">
                 No active promotions available.
