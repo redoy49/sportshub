@@ -4,6 +4,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 import Swal from "sweetalert2";
+import { FaSearch } from "react-icons/fa";
 
 const fetchMembers = async (axiosSecure) => {
   const res = await axiosSecure.get("/members");
@@ -30,7 +31,12 @@ const ManageMembers = () => {
       await axiosSecure.delete(`/members/${id}`);
     },
     onSuccess: () => {
-      Swal.fire("Deleted!", "The member has been deleted.", "success");
+      Swal.fire({
+        title: "Deleted",
+        text: "Member has been removed",
+        icon: "success",
+        confirmButtonColor: "#84B179",
+      });
       queryClient.invalidateQueries({ queryKey: ["members"] });
     },
     onError: () => toast.error("Failed to delete member"),
@@ -38,13 +44,13 @@ const ManageMembers = () => {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "Do you really want to delete this member?",
+      title: "Delete member?",
+      text: "This action cannot be undone",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonColor: "#84B179",
+      cancelButtonColor: "#d1d5db",
+      confirmButtonText: "Delete",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteMutation.mutate(id);
@@ -52,45 +58,48 @@ const ManageMembers = () => {
     });
   };
 
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-  };
-
   const filteredMembers = members.filter((member) =>
-    `${member.name} ${member.email}`.toLowerCase().includes(search.toLowerCase())
+    `${member.name} ${member.email}`
+      .toLowerCase()
+      .includes(search.toLowerCase()),
   );
 
   return (
-    <div className="max-w-full mx-auto border border-gray-200 px-4 py-6 mt-16 lg:mt-2">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">
-        👥 Manage Members
-      </h2>
+    <div className="max-w-full mx-auto border border-gray-200 px-5 py-6 rounded-xl bg-white">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <h2 className="text-xl font-semibold text-gray-900">Manage Members</h2>
 
-      <div className="search-input-container w-full md:w-80 flex-shrink-0 relative mb-6">
-        <input
-          type="text"
-          placeholder="Search by name..."
-          className="search-input w-full bg-white border border-gray-300 text-gray-700 rounded-full shadow-xs leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-sm pl-6 pr-4 py-2"
-          value={search}
-          onChange={handleSearch}
-        />
-        <i className="fas fa-search absolute left-3 top-2.5 text-gray-500 text-sm"></i>
+        {/* Search */}
+        <div className="relative w-full md:w-72">
+          <input
+            type="text"
+            placeholder="Search member..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#84B179]/30 focus:border-[#84B179]"
+          />
+
+          <FaSearch
+            size={14}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+          />
+        </div>
       </div>
 
+      {/* Content */}
       {isLoading ? (
-        <div className="flex justify-center items-center py-10">
+        <div className="flex justify-center py-10">
           <LoadingSpinner />
         </div>
       ) : isError ? (
         <p className="text-center text-red-500">Error: {error.message}</p>
       ) : filteredMembers.length === 0 ? (
-        <div className="text-center text-gray-500 italic">
-          No members found.
-        </div>
+        <p className="text-center text-gray-400 py-10">No members found</p>
       ) : (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto rounded-xl">
           <table className="table w-full">
-            <thead className="bg-blue-50 text-sm font-semibold text-gray-700">
+            <thead className="bg-[#E8F5BD]/60 text-sm font-semibold text-gray-700">
               <tr>
                 <th>#</th>
                 <th>Name</th>
@@ -99,20 +108,27 @@ const ManageMembers = () => {
                 <th className="text-center">Action</th>
               </tr>
             </thead>
+
             <tbody>
               {filteredMembers.map((member, index) => (
                 <tr
                   key={member._id}
-                  className="hover:bg-base-100 transition-colors"
+                  className="hover:bg-[#E8F5BD]/30 transition"
                 >
-                  <td>{index + 1}</td>
-                  <td>{member.name}</td>
-                  <td>{member.email}</td>
-                  <td>{new Date(member.createdAt).toLocaleDateString()}</td>
+                  <td className="text-gray-500">{index + 1}</td>
+
+                  <td className="font-medium text-gray-800">{member.name}</td>
+
+                  <td className="text-gray-600">{member.email}</td>
+
+                  <td className="text-gray-500">
+                    {new Date(member.createdAt).toLocaleDateString()}
+                  </td>
+
                   <td className="text-center">
                     <button
                       onClick={() => handleDelete(member._id)}
-                      className="btn btn-sm btn-error text-white"
+                      className="px-3 py-1.5 rounded-lg text-xs font-medium text-white bg-[#84B179] hover:bg-[#6F9F62] transition"
                     >
                       {deleteMutation.isPending ? "Deleting..." : "Delete"}
                     </button>
