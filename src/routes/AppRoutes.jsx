@@ -204,7 +204,7 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Forbidden from "../pages/Forbidden/Forbidden";
 import Support from "../pages/Support/Support";
-import CourtsPage from "../pages/Courts/Courts";
+import CourtsPage from "../pages/Courts/CourtsPage";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 import PrivateRoute from "./PrivateRoute";
