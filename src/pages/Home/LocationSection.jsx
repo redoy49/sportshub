@@ -22,7 +22,7 @@ const LocationSection = () => {
 
         <SectionTitle
           title="Visit Our Club"
-          subtitle="Find us بسهولة and plan your next game with confidence"
+          subtitle="Find us and plan your next game with confidence"
         />
 
         <div className="grid lg:grid-cols-[2fr_1fr] gap-8 mt-14 items-stretch">
