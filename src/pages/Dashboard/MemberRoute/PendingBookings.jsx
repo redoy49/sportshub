@@ -32,9 +32,10 @@ const PendingBookings = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["pending-bookings", user?.email]);
+      Swal.fire("Cancelled", "Booking has been cancelled", "success");
     },
     onError: () => {
-      alert("Failed to cancel the booking.");
+      Swal.fire("Error", "Failed to cancel the booking", "error");
     },
   });
 
@@ -55,12 +56,14 @@ const PendingBookings = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto border border-gray-200 px-4 py-6 mt-16 lg:mt-2">
-      <h2 className="mb-4 text-2xl font-bold text-gray-800">
-        Pending Bookings
-      </h2>
+    <div className="w-full px-6 py-6 mt-16 lg:mt-2 space-y-4">
+      <h2 className="text-2xl font-bold text-gray-800">Pending Bookings</h2>
 
-      {isLoading && <LoadingSpinner />}
+      {isLoading && (
+        <div className="flex justify-center py-10">
+          <LoadingSpinner />
+        </div>
+      )}
 
       {isError && (
         <p className="text-red-500">
@@ -76,28 +79,35 @@ const PendingBookings = () => {
 
       {!isLoading && pendingBookings.length > 0 && (
         <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead className="bg-blue-50">
+          <table className="table w-full border border-gray-200 rounded-xl">
+            <thead className="bg-[#E8F5BD]/40 text-gray-700 text-sm font-medium">
               <tr>
                 <th>Court</th>
                 <th>Date</th>
                 <th>Slot</th>
                 <th>Price</th>
-                <th>Actions</th>
+                <th className="text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
               {pendingBookings.map((booking) => (
-                <tr key={booking._id}>
-                  <td>{booking.courtName}</td>
-                  <td>{new Date(booking.date).toLocaleDateString()}</td>
-                  <td>{booking.slots?.join(", ") || "N/A"}</td>
-                  <td>${booking.price.toFixed(2)}</td>
-                  <td>
+                <tr
+                  key={booking._id}
+                  className="hover:bg-[#E8F5BD]/30 transition"
+                >
+                  <td className="text-gray-700">{booking.courtName}</td>
+                  <td className="text-gray-500">
+                    {new Date(booking.date).toLocaleDateString()}
+                  </td>
+                  <td className="text-gray-700">{booking.slots?.join(", ") || "N/A"}</td>
+                  <td className="text-[#84B179] font-semibold">
+                    ${booking.price.toFixed(2)}
+                  </td>
+                  <td className="flex justify-center gap-2 py-2">
                     <button
                       onClick={() => handleCancel(booking._id)}
-                      className="btn btn-sm btn-error"
                       disabled={cancelMutation.isLoading}
+                      className="px-3 py-1.5 text-xs font-medium rounded-lg bg-[#84B179] text-white hover:bg-[#6F9F62] transition"
                     >
                       Cancel
                     </button>
