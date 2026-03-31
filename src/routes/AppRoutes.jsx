@@ -273,9 +273,9 @@ const router = createBrowserRouter([
       {
         path: "pending-bookings",
         element: (
-          <MemberRoute>
+          <PrivateRoute>
             <PendingBookings />
-          </MemberRoute>
+          </PrivateRoute>
         ),
       },
       {

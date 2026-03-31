@@ -73,7 +73,7 @@ const ManageAnnouncements = () => {
   };
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto mt-16 lg:mt-2">
+    <div className="space-y-6 max-w-full mx-auto mt-16 lg:mt-2">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
