@@ -32,7 +32,6 @@ const Announcements = () => {
     <div className="space-y-6">
       {/* Header */}
       <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-        <FaBullhorn className="text-[#84B179]" />
         Club Announcements
       </h2>
 
@@ -49,10 +48,7 @@ const Announcements = () => {
           <tbody>
             {announcements.length > 0 ? (
               announcements.map((a, index) => (
-                <tr
-                  key={a._id}
-                  className="hover:bg-[#E8F5BD]/30 transition"
-                >
+                <tr key={a._id} className="hover:bg-[#E8F5BD]/30 transition">
                   <td className="text-gray-500 font-medium">{index + 1}</td>
                   <td className="text-gray-700">{a.text}</td>
                   <td className="text-gray-500 text-sm">

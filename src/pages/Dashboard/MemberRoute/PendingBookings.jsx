@@ -49,37 +49,35 @@ const PendingBookings = () => {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, cancel it!",
     }).then((result) => {
-      if (result.isConfirmed) {
-        cancelMutation.mutate(id);
-      }
+      if (result.isConfirmed) cancelMutation.mutate(id);
     });
   };
 
   return (
-    <div className="w-full px-6 py-6 mt-16 lg:mt-2 space-y-4">
-      <h2 className="text-2xl font-bold text-gray-800">Pending Bookings</h2>
+    <div className="space-y-6 w-full">
+      {/* Header */}
+      <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+        Pending Bookings
+      </h2>
 
+      {/* Loading */}
       {isLoading && (
         <div className="flex justify-center py-10">
           <LoadingSpinner />
         </div>
       )}
 
+      {/* Error */}
       {isError && (
-        <p className="text-red-500">
-          Error: {error?.message || "Something went wrong."}
-        </p>
+        <div className="text-center text-red-600 mt-6">
+          Failed to load bookings: {error?.message}
+        </div>
       )}
 
-      {!isLoading && pendingBookings.length === 0 && (
-        <p className="text-center text-gray-500 py-6 italic">
-          No pending bookings found.
-        </p>
-      )}
-
-      {!isLoading && pendingBookings.length > 0 && (
-        <div className="overflow-x-auto">
-          <table className="table w-full border border-gray-200 rounded-xl">
+      {/* Table */}
+      {!isLoading && (
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-x-auto">
+          <table className="table w-full">
             <thead className="bg-[#E8F5BD]/40 text-gray-700 text-sm font-medium">
               <tr>
                 <th>Court</th>
@@ -90,30 +88,56 @@ const PendingBookings = () => {
               </tr>
             </thead>
             <tbody>
-              {pendingBookings.map((booking) => (
-                <tr
-                  key={booking._id}
-                  className="hover:bg-[#E8F5BD]/30 transition"
-                >
-                  <td className="text-gray-700">{booking.courtName}</td>
-                  <td className="text-gray-500">
-                    {new Date(booking.date).toLocaleDateString()}
-                  </td>
-                  <td className="text-gray-700">{booking.slots?.join(", ") || "N/A"}</td>
-                  <td className="text-[#84B179] font-semibold">
-                    ${booking.price.toFixed(2)}
-                  </td>
-                  <td className="flex justify-center gap-2 py-2">
-                    <button
-                      onClick={() => handleCancel(booking._id)}
-                      disabled={cancelMutation.isLoading}
-                      className="px-3 py-1.5 text-xs font-medium rounded-lg bg-[#84B179] text-white hover:bg-[#6F9F62] transition"
-                    >
-                      Cancel
-                    </button>
+              {pendingBookings.length > 0 ? (
+                pendingBookings.map((booking, idx) => (
+                  <tr
+                    key={booking._id}
+                    className="hover:bg-[#E8F5BD]/30 transition"
+                  >
+                    <td className="text-gray-700">{booking.courtName}</td>
+                    <td className="text-gray-500">
+                      {new Date(booking.date).toLocaleDateString()}
+                    </td>
+                    <td className="text-gray-700">
+                      {booking.slots?.join(", ") || "N/A"}
+                    </td>
+                    <td className="text-[#84B179] font-semibold">
+                      ${booking.price.toFixed(2)}
+                    </td>
+                    <td className="flex gap-2 justify-center py-2">
+                      <button
+                        onClick={() => handleCancel(booking._id)}
+                        disabled={cancelMutation.isLoading}
+                        className="px-3 py-1.5 text-xs font-medium rounded-lg bg-[#84B179] text-white hover:bg-[#6F9F62] transition flex items-center justify-center"
+                        title="Cancel Booking"
+                      >
+                        <svg
+                          stroke="currentColor"
+                          fill="currentColor"
+                          strokeWidth="0"
+                          viewBox="0 0 448 512"
+                          height="1em"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="mr-1"
+                        >
+                          <path d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path>
+                        </svg>
+                        Cancel
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="5"
+                    className="text-center py-6 text-gray-500 italic"
+                  >
+                    No pending bookings found.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
