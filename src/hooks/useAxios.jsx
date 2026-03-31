@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: `https://sports-hub-tau.vercel.app`
-})
+  baseURL: "http://localhost:5000",
+});
 
 const useAxios = () => {
-    return axiosInstance;
+  return axiosInstance;
 };
 
 export default useAxios;
