@@ -60,7 +60,7 @@ const AdminProfile = () => {
 
   return (
     <div className="space-y-8">
-      {/* ================= HEADER ================= */}
+      {/* HEADER */}
       <div className="bg-white border border-gray-200 rounded-2xl p-6 flex items-center justify-between">
         <div className="flex items-center gap-5">
           <img
@@ -86,7 +86,7 @@ const AdminProfile = () => {
         </div>
       </div>
 
-      {/* ================= STATS ================= */}
+      {/* STATS */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Courts */}
         <div className="bg-white border border-gray-200 p-6 rounded-xl flex items-center justify-between hover:shadow-sm transition">
@@ -133,7 +133,7 @@ const AdminProfile = () => {
         </div>
       </div>
 
-      {/* ================= CHART + ACTIVITY ================= */}
+      {/* CHART + ACTIVITY */}
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Chart */}
         <div className="lg:col-span-2">

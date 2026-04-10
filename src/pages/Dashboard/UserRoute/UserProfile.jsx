@@ -43,7 +43,7 @@ const UserProfile = () => {
         </div>
       </div>
 
-      {/* ================= USER STATS ================= */}
+      {/* USER STATS */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Registered Date */}
         <div className="bg-white border border-gray-200 p-6 rounded-xl flex items-center justify-between hover:shadow-sm transition">
@@ -79,7 +79,7 @@ const UserProfile = () => {
         </div>
       </div>
 
-      {/* ================= ADDITIONAL INFO / ACTIVITY ================= */}
+      {/* ADDITIONAL INFO / ACTIVITY */}
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
         <h3 className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
           <FaUserCircle className="text-[#84B179]" />

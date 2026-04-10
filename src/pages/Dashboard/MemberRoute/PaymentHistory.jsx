@@ -41,7 +41,7 @@ const PaymentHistory = () => {
         </button>
       </div>
 
-      {/* ================= CARD VIEW ================= */}
+      {/* CARD VIEW */}
       {isCardView ? (
         <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {loading ? (
@@ -95,7 +95,7 @@ const PaymentHistory = () => {
           )}
         </div>
       ) : (
-        /* ================= TABLE VIEW ================= */
+        /*  TABLE VIEW  */
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-x-auto">
           {loading ? (
             <div className="flex justify-center py-10">

@@ -16,7 +16,7 @@ import athletedHub from "../assets/athletesHub.png";
 const DashboardLayout = () => {
   const { role, roleLoading } = useUserRole();
 
-  // ✅ Clean nav style
+  // Clean nav style
   const navLinkClass = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
       isActive
@@ -29,7 +29,7 @@ const DashboardLayout = () => {
 
       <input id="dashboard-drawer" type="checkbox" className="drawer-toggle" />
 
-      {/* ================= CONTENT ================= */}
+      {/* CONTENT */}
       <div className="drawer-content flex flex-col">
 
         {/* Mobile Header */}
@@ -57,7 +57,7 @@ const DashboardLayout = () => {
         </main>
       </div>
 
-      {/* ================= SIDEBAR ================= */}
+      {/* SIDEBAR */}
       <div className="drawer-side">
         <label htmlFor="dashboard-drawer" className="drawer-overlay" />
 
