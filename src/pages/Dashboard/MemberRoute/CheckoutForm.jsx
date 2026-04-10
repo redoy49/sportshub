@@ -18,7 +18,7 @@ const CheckoutForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Fetch approved booking data by id
+  //  FETCH BOOKING 
   useEffect(() => {
     const fetchBooking = async () => {
       if (!id) return;
@@ -27,28 +27,20 @@ const CheckoutForm = () => {
         const res = await axiosSecure.get(`/bookings/approved/${id}`);
         setBooking(res.data);
       } catch (error) {
-        console.error("Error fetching booking:", error);
-        toast.error("Failed to load booking");
+        toast.error("Failed to load booking", error);
       }
     };
 
     fetchBooking();
   }, [axiosSecure, id]);
 
-  // Create payment intent after booking is loaded
+  //  CREATE PAYMENT INTENT 
   useEffect(() => {
     if (!booking) return;
 
     const createPaymentIntent = async () => {
       try {
-        // Ensure price is valid number and convert to cents
         const amount = Number(booking.price) * 100;
-
-        if (!amount || isNaN(amount)) {
-          console.error("Invalid amount:", booking.price);
-          toast.error("Invalid payment amount");
-          return;
-        }
 
         const res = await axiosSecure.post("/create-payment-intent", {
           amountInCents: amount,
@@ -57,38 +49,25 @@ const CheckoutForm = () => {
         });
 
         setClientSecret(res.data.clientSecret);
-      } catch (error) {
-        console.error(
-          "Error creating payment intent:",
-          error.response?.data || error
-        );
-        toast.error("Failed to initiate payment");
+      } catch {
+        toast.error("Payment initialization failed");
       }
     };
 
     createPaymentIntent();
   }, [booking, axiosSecure]);
 
-  // Handle payment submission
+  //  HANDLE PAYMENT 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Ensure Stripe is ready
-    if (!stripe || !elements) {
-      toast.error("Stripe not loaded yet");
-      return;
-    }
-
-    if (!clientSecret) {
-      toast.error("Payment is not ready");
-      return;
+    if (!stripe || !elements || !clientSecret) {
+      return toast.error("Payment not ready");
     }
 
     setLoading(true);
 
     try {
-      // Confirm payment directly using card element
-      // No need to manually create paymentMethod separately
       const { error, paymentIntent } = await stripe.confirmCardPayment(
         clientSecret,
         {
@@ -98,76 +77,103 @@ const CheckoutForm = () => {
               email: booking.userEmail,
             },
           },
-        }
+        },
       );
 
-      // Handle Stripe error
       if (error) {
-        console.error("Stripe confirm error:", error);
         toast.error(error.message);
         setLoading(false);
         return;
       }
 
-      // If payment succeeds
       if (paymentIntent.status === "succeeded") {
-        try {
-          // Save payment info to backend
-          await axiosSecure.post("/save-payment", {
-            amount: booking.price,
-            bookingId: booking._id,
-            userEmail: booking.userEmail,
-            paymentIntentId: paymentIntent.id,
-            status: paymentIntent.status,
-            paidAt: new Date(),
-          });
+        await axiosSecure.post("/save-payment", {
+          amount: booking.price,
+          bookingId: booking._id,
+          userEmail: booking.userEmail,
+          paymentIntentId: paymentIntent.id,
+          status: paymentIntent.status,
+          paidAt: new Date(),
+        });
 
-          toast.success("Payment successful");
-          navigate("/dashboard/confirmed-bookings");
-        } catch (saveError) {
-          console.error("Error saving payment:", saveError);
-          toast.error("Payment saved failed");
-        }
+        toast.success("Payment successful 🎉");
+        navigate("/dashboard/confirmed-bookings");
       }
-    } catch (err) {
-      console.error("Payment failed:", err);
+    } catch {
       toast.error("Payment failed");
     }
 
     setLoading(false);
   };
 
-  // Show loader while auth or booking is loading
   if (isAuthLoading || !booking) {
-    return <LoadingSpinner />;
+    return (
+      <div className="flex justify-center py-10">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-xl rounded-2xl mt-10">
-      <h2 className="text-2xl font-bold text-center mb-4">
-        Pay for: {booking.courtName}
-      </h2>
+    <div className="w-full space-y-6 mt-16 lg:mt-2">
+      {/*  HEADER CARD  */}
+      <div className="bg-white border border-gray-200 rounded-2xl p-6">
+        <h2 className="text-xl font-semibold text-gray-900">
+          Complete Payment
+        </h2>
+        <p className="text-sm text-gray-500 mt-1">
+          Securely pay for your booking
+        </p>
+      </div>
 
-      <p className="text-center mb-2 text-gray-600">
-        Date: {new Date(booking.date).toLocaleDateString()}
-      </p>
+      {/*  BOOKING INFO  */}
+      <div className="bg-white border border-gray-200 rounded-xl p-6 grid sm:grid-cols-2 gap-6">
+        <div>
+          <p className="text-sm text-gray-500">Court</p>
+          <h3 className="text-lg font-semibold text-gray-900 mt-1">
+            {booking.courtName}
+          </h3>
+        </div>
 
-      <p className="text-center mb-6 text-gray-600">
-        Slot(s): {booking.slots?.join(", ")} | Price: ${booking.price}
-      </p>
+        <div>
+          <p className="text-sm text-gray-500">Date</p>
+          <h3 className="text-gray-800 mt-1">
+            {new Date(booking.date).toLocaleDateString()}
+          </h3>
+        </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Stripe card input field */}
-        <CardElement className="p-4 border rounded-md" />
+        <div>
+          <p className="text-sm text-gray-500">Slots</p>
+          <h3 className="text-gray-800 mt-1">{booking.slots?.join(", ")}</h3>
+        </div>
 
+        <div>
+          <p className="text-sm text-gray-500">Amount</p>
+          <h3 className="text-xl font-semibold text-[#84B179] mt-1">
+            ${booking.price}
+          </h3>
+        </div>
+      </div>
+
+      {/*  PAYMENT CARD  */}
+      <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
+        <h3 className="text-sm font-semibold text-gray-800">Payment Details</h3>
+
+        {/* Stripe Input */}
+        <div className="border border-gray-300 rounded-lg p-4 focus-within:ring-2 focus-within:ring-[#84B179]/40">
+          <CardElement />
+        </div>
+
+        {/* Button */}
         <button
           type="submit"
+          onClick={handleSubmit}
           disabled={!stripe || loading || !clientSecret}
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg bg-[#84B179] text-white hover:bg-[#6F9F62] transition disabled:opacity-50"
         >
           {loading ? "Processing..." : `Pay $${booking.price}`}
         </button>
-      </form>
+      </div>
     </div>
   );
 };
