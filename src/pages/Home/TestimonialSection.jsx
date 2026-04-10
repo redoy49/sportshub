@@ -74,10 +74,10 @@ const TestimonialCard = ({ t }) => {
               {/* verified icon */}
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M4.555.72c-.09.07-.19.15-.297.24..."
-                  fill="#22c55e"
+                  d="M10 3L5 8L2 5"
+                  stroke="#22c55e"
+                  strokeWidth="1.5"
+                  fill="none"
                 />
               </svg>
             </div>
