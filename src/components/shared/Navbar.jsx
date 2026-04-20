@@ -127,10 +127,10 @@ const Navbar = () => {
             <>
               {/* Secondary CTA */}
               <Link
-                to="/register"
+                to="/login"
                 className="text-sm px-4 py-2 border border-[#84B179] text-[#84B179] rounded-full hover:bg-[#84B179] hover:text-white transition"
               >
-                Sign up
+                Sign in
               </Link>
 
               {/* Primary CTA */}

@@ -80,7 +80,7 @@ const Register = () => {
             type="button"
             onClick={handleGoogleSignIn}
             disabled={isSubmittingSocial}
-            className="bg-gray-100 dark:bg-white/5 w-full h-12 justify-center hover:bg-gray-200 dark:hover:bg-white/10 dark:hover:text-white/90 transition text-gray-700 dark:text-gray-400 font-normal text-sm rounded-full flex items-center gap-3 px-5 py-2.5"
+            className="bg-gray-100 cursor-pointer dark:bg-white/5 w-full h-12 justify-center hover:bg-gray-200 dark:hover:bg-white/10 dark:hover:text-white/90 transition text-gray-700 dark:text-gray-400 font-normal text-sm rounded-full flex items-center gap-3 px-5 py-2.5"
           >
             <FcGoogle size={20} />
             Continue with Google
@@ -88,7 +88,7 @@ const Register = () => {
 
           <button
             type="button"
-            className="bg-gray-100 dark:bg-white/5 w-full h-12 justify-center hover:bg-gray-200 dark:hover:bg-white/10 dark:hover:text-white/90 transition text-gray-700 dark:text-gray-400 font-normal text-sm rounded-full flex items-center gap-3 px-5 py-2.5"
+            className="bg-gray-100 cursor-pointer dark:bg-white/5 w-full h-12 justify-center hover:bg-gray-200 dark:hover:bg-white/10 dark:hover:text-white/90 transition text-gray-700 dark:text-gray-400 font-normal text-sm rounded-full flex items-center gap-3 px-5 py-2.5"
           >
             <FaFacebookF className="text-blue-600" size={18} />
             Continue with Facebook
@@ -139,7 +139,7 @@ const Register = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-green-600 hover:bg-green-700 text-white w-full h-12 rounded-full font-semibold transition"
+            className="bg-green-600 cursor-pointer hover:bg-green-700 text-white w-full h-12 rounded-full font-semibold transition"
           >
             {isSubmitting ? "Registering..." : "Sign Up"}
           </button>
