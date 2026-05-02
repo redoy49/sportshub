@@ -1,124 +1,87 @@
-# 🏸 Sports Hub | Sports Club Management System
+# SportsHub | Sports Club Management System
 
-A full-stack, role-based web application for managing **a single sports club** — built with the MERN stack (MongoDB, Express.js, React, Node.js). Designed for users, members, and admins, the platform provides seamless booking, membership, and management experiences with modern UX and robust backend.
+SportsHub is a comprehensive web application designed for the efficient management of a single sports club. This platform facilitates seamless coordination between users, members, and administrators, providing a structured environment for court bookings, membership handling, and financial tracking. Built with a modern technology stack, it ensures a robust and responsive experience across all device types.
 
----
+## Project Links
 
-## 🔗 Live Demo
+* Live Website: https://athletohub.web.app/
+* Admin Credentials:
+  * Email: sportshub@gmail.com
+  * Password: sportshub
 
-🌐 **Live Site:** [https://athletohub.web.app/](https://athletohub.web.app/)  
-🔐 **Admin Login:**  
-- **Email:** admin@gmail.com  
-- **Password:** 1111qQ  
+## Core Features
 
----
+* Multi Role Access: Dedicated interfaces and permissions for Users, Members, and Administrators.
+* Secure Authentication: Robust login and registration system powered by Firebase.
+* Dynamic Booking System: Interactive court selection with session slots and automated price calculation.
+* Payment Integration: Secure transaction processing via Stripe with support for promotional coupons.
+* Real Time Notifications: Instant feedback through custom toast notifications and modal alerts.
+* Data Management: Efficient state handling and API synchronization using TanStack Query.
+* Advanced Dashboards: Specialized administrative and personal panels for monitoring activities and managing records.
+* Responsive Design: Fully optimized layout for mobile, tablet, and desktop environments.
+* Persistent Sessions: Reliable authentication state management to prevent unnecessary redirects on page refresh.
+* Flexible Data Presentation: Support for both card and table views in transaction histories.
 
-## 📌 Key Features
+## Role Based Functionalities
 
-✅ 3 User Roles: **User**, **Member**, and **Admin**  
-✅ Authentication & Firebase Role-Based Authorization  
-✅ Booking system with session slots, pricing, and approval workflow  
-✅ Payment integration with coupon support  
-✅ Custom alerts (Toast/SweetAlert) for all CRUD/Auth events  
-✅ TanStack Query + Mutation for API management  
-✅ Dashboard for all roles — **User**, **Member**, **Admin**  
-✅ Booking approval, member management, court management, and more  
-✅ Responsive across mobile, tablet, desktop  
-✅ Persistent login (private routes don’t redirect on refresh)  
-✅ Pagination (Card: 6/page if ≥10, Table: 10/page if ≥15)  
-✅ Toggle between Table ↔ Card in Payment History  
-✅ Axios Interceptor & .env secrets  
-✅ No lorem ipsum – Real, professional content  
+### User Capabilities
+* Profile Management: View personal registration details and account information.
+* Court Reservations: Browse available sports courts and submit booking requests.
+* Booking Tracking: Monitor the status of pending reservations with options to cancel.
+* Club Announcements: Stay informed with the latest updates from the club administration.
 
----
+### Member Capabilities
+* Membership Tracking: View active membership status and start dates.
+* Advanced Booking Management: Access to approved and confirmed booking lists.
+* Streamlined Payments: Dedicated payment gateway with coupon application features.
+* Transaction History: Detailed record of all past payments with layout toggle options.
 
-## 🏠 Home Page
+### Administrative Capabilities
+* System Overview: Real time statistics on total users, members, courts, and revenue.
+* Booking Approval: Review and process booking requests from users and members.
+* User and Member Management: Searchable directories with options for role updates or record deletion.
+* Court Configuration: Full CRUD operations for managing club facilities.
+* Coupon Management: Create and update promotional codes for the club.
+* Communication Tools: Author and manage club wide announcements.
 
-- Beautiful **navbar** with site logo and role-based nav links  
-- **Banner** with rotating sports images  
-- **About Club**: history, mission, typography-rich layout  
-- **Location section**: full address + Google map/static map  
-- **Promotions section**: fancy coupon display (e.g., `ABC → 5% off`)  
-- **Footer**: social icons, contact details  
+## Technology Stack
 
----
+### Frontend
+* React: For building a dynamic and component based user interface.
+* Tailwind CSS: For modern and utility first styling.
+* DaisyUI: For polished and accessible UI components.
+* TanStack Query: For efficient server state management.
+* React Router: For advanced navigation and private route protection.
 
-## 🏟 Courts Page
+### Backend and Infrastructure
+* Node.js and Express: For the RESTful API services.
+* MongoDB: For flexible and scalable data storage.
+* Firebase Auth: For secure identity management.
+* Stripe API: For integrated payment processing.
+* Axios: For reliable HTTP communication with interceptor support.
 
-- Displays court image, type, slot dropdown, price, and **Book Now**  
-- **Logged out:** redirect to login  
-- **Logged in:** show modal with:
-  - Read-only court info
-  - Multi-slot booking
-  - Auto-price calculation
-  - Submission → status `pending`
-  - After admin approval → status becomes `approved`
-  - After payment → status becomes `confirmed`
+## Installation and Setup
 
----
+1. Clone the repository:
+   git clone https://github.com/redoy49/sportshub.git
 
-## 👤 User Dashboard (Private)
+2. Navigate to the project directory:
+   cd sportshub/client
 
-- **My Profile**: name, email, registration date  
-- **Pending Bookings**: cancel option, reflected in admin panel  
-- **Announcements**: admin club updates  
+3. Install dependencies:
+   npm install
 
----
+4. Configure environment variables:
+   Create a .env file in the root directory and include your Firebase and Stripe configurations.
 
-## 👤 Member Dashboard (Private)
+5. Start the development server:
+   npm run dev
 
-- **My Profile**: membership start date  
-- **Pending Bookings**: cancel option  
-- **Approved Bookings**:  
-  - Pay button (redirects to payment page)  
-  - Cancel option  
-- **Payment Page**:
-  - Read-only fields
-  - Coupon apply functionality
-  - After success: store to DB + success message  
-- **Confirmed Bookings**  
-- **Payment History**:  
-  - Table format  
-  - Toggle to card format via button  
-- **Announcements**
+## Project Structure
 
----
-
-## 🛠 Admin Dashboard (Private)
-
-- **Admin Profile**: name, email, image, total users/members/courts  
-- **Manage Booking Approvals**: accept/reject options  
-- **Manage Members**: searchable list with delete  
-- **All Users**: view/search all users  
-- **Manage Courts**: CRUD functionality  
-- **Manage Bookings**: search confirmed bookings by title  
-- **Manage Coupons**: add/update/delete  
-- **Make Announcement**: add/update/delete
-
----
-
-## 💡 Challenge Features
-
-- Court page pagination:  
-  - Card view → 6 per page (min 10)  
-  - Table view → 10 per page (min 15)  
-- Toggle Payment History layout: table ↔ card  
-- Axios interceptor with auth token support  
-- TanStack Query (GET) and Mutation (POST/PUT/DELETE)  
-
----
-
-## 🧑‍💻 Tech Stack
-
-| Tech       | Description |
-|------------|-------------|
-| **React**  | Frontend UI (Tailwind + DaisyUI) |
-| **TanStack Query** | API state management |
-| **React Router** | Route handling (including private routes) |
-| **Firebase Auth** | Authentication & Role-based access |
-| **Node.js + Express** | REST API Backend |
-| **MongoDB** | NoSQL database |
-| **Stripe** | Payment integration |
-| **Axios** | HTTP client with interceptors |
-| **Vercel / Firebase / Netlify** | Deployment |
-
+* src/components: Reusable UI elements and shared layouts.
+* src/context: Authentication and global state providers.
+* src/hooks: Custom logic for API calls and authentication checks.
+* src/pages: Individual page components for public and dashboard routes.
+* src/routes: Routing configuration and access control definitions.
+* src/assets: Static resources including images and icons.
